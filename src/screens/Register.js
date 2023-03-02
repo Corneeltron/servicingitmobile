@@ -7,7 +7,7 @@ import {ActivityIndicator, Button, TextInput} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import {registerUser} from '../redux/slices/authSlice';
 
-const Register = () => {
+export const Register = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {loading, userInfo, error, success} = useSelector(state => state.auth);
@@ -35,16 +35,16 @@ const Register = () => {
     dispatch(registerUser(data));
   };
 
-  // useEffect(() => {
-  //   // redirect user to login page if registration was successful
-  //   if (success) {
-  //     navigation.navigate('/login');
-  //   }
-  //   // redirect authenticated user to profile screen
-  //   if (userInfo) {
-  //     navigation.navigate('Dashboard');
-  //   }
-  // }, [navigation, userInfo, success]);
+  useEffect(() => {
+    // redirect user to login page if registration was successful
+    if (success) {
+      navigation.navigate('/login');
+    }
+    // redirect authenticated user to profile screen
+    if (userInfo) {
+      navigation.navigate('Dashboard');
+    }
+  }, [navigation, userInfo, success]);
 
   return (
     <SafeAreaView
@@ -143,5 +143,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
 });
-
-export default Register;

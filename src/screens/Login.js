@@ -1,43 +1,70 @@
-import {useEffect} from 'react';
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable no-shadow */
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
-import {View, Image, SafeAreaView, StyleSheet} from 'react-native';
-import {TextInput, Button, Headline} from 'react-native-paper';
+import {
+  View,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
+import {TextInput, Button, Headline, Text} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
-import {userLogin} from '../redux/slices/authSlice';
+import {setCredentials} from '../redux/slices/authSlice';
+import {useLoginMutation} from '../redux/slices/authApiSlice';
 
-const Login = () => {
-  const {loading, userInfo, error, success} = useSelector(state => state.auth);
-  const dispatch = useDispatch();
+export const Login = () => {
+  const userRef = useRef();
+  const errRef = useRef();
+  const [user, setUser] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [errMsg, setErrMsg] = useState('');
   const navigation = useNavigation();
-
-  const {
-    handleSubmit,
-    control,
-    formState: {errors},
-  } = useForm({
-    defaultValues: {
-      username: '',
-      password: '',
-    },
-  });
-
-  const submitForm = data => {
-    dispatch(userLogin(data));
-    console.log('logindata', data);
-  };
+  const [login, {isLoading}] = useLoginMutation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (userInfo) {
+    userRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    setErrMsg('');
+  }, [user, pwd]);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    try {
+      const userData = await login({user, pwd}).unwrap();
+      dispatch(setCredentials({...userData, user}));
+      setUser('');
+      setPwd('');
       navigation.navigate('Dashboard');
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg('No Server Response');
+      } else if (err.response?.status === 400) {
+        setErrMsg('Missing Username or Password');
+      } else if (err.response?.status === 401) {
+        setErrMsg('Unauthorized');
+      } else {
+        setErrMsg('Login Failed');
+      }
+      errRef.current.focus();
     }
-  }, [navigation, userInfo]);
+  };
 
   const navigateToRegister = () => {
     navigation.navigate('Register');
   };
 
-  return (
+  const content = isLoading ? (
+    <ActivityIndicator />
+  ) : (
     <SafeAreaView
       style={{
         flex: 1,
@@ -48,6 +75,9 @@ const Login = () => {
         justifyContent: 'center',
       }}
       testID="search-page">
+      <Text ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>
+        {errMsg}
+      </Text>
       <View
         style={{
           justifyContent: 'center',
@@ -62,50 +92,35 @@ const Login = () => {
         </Headline>
       </View>
       <View>
-        <Controller
-          control={control}
-          render={({field: {onChange, onBlur, value}}) => (
-            <TextInput
-              mode="outlined"
-              testID="username-input"
-              style={{marginTop: 10}}
-              label="Username"
-              onBlur={onBlur}
-              onChangeText={user => onChange(user)}
-              value={value}
-            />
-          )}
-          name="username"
-          rules={{required: true}}
+        <TextInput
+          mode="outlined"
+          testID="username-input"
+          style={{marginTop: 10}}
+          label="Username"
+          // onBlur={onBlur}
+          onChangeText={user => setUser(user)}
+          value={user}
         />
-        <Controller
-          control={control}
-          render={({field: {onChange, onBlur, value}}) => (
-            <TextInput
-              secureTextEntry={true}
-              mode="outlined"
-              testID="password-input"
-              style={{marginTop: 10}}
-              label="Password"
-              onBlur={onBlur}
-              onChangeText={password => onChange(password)}
-              value={value}
-            />
-          )}
-          name="password"
-          rules={{required: true}}
+        <TextInput
+          secureTextEntry={true}
+          mode="outlined"
+          testID="password-input"
+          style={{marginTop: 10}}
+          label="Password"
+          // onBlur={onBlur}
+          onChangeText={password => setPwd(password)}
+          value={pwd}
         />
-
         <Button
-          testID="search-button"
+          testID="login-button"
           style={styles.button}
           icon="account"
           mode="contained"
-          onPress={handleSubmit(submitForm)}>
+          onPress={() => handleSubmit()}>
           Log in
         </Button>
         <Button
-          testID="all-films-button"
+          testID="register-button"
           style={styles.button}
           icon="lock"
           mode="outlined"
@@ -115,6 +130,8 @@ const Login = () => {
       </View>
     </SafeAreaView>
   );
+
+  return content;
 };
 
 const styles = StyleSheet.create({
@@ -123,5 +140,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
 });
-
-export default Login;

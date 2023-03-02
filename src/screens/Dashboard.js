@@ -8,9 +8,9 @@ import {
   setSignOut,
 } from '../redux/slices/authSlice';
 
-const Dashboard = () => {
-  // const dispatch = useDispatch();
-  // const username = useSelector(selectUserName);
+export const Dashboard = () => {
+  const dispatch = useDispatch();
+  const username = useSelector(selectUserName);
   return (
     <View
       style={{
@@ -33,5 +33,3 @@ const Dashboard = () => {
     </View>
   );
 };
-
-export default Dashboard;

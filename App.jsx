@@ -1,13 +1,20 @@
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Login} from './src/screens/Login';
+import {Register} from './src/screens/Register';
+import {Dashboard} from './src/screens/Dashboard';
 import React from 'react';
-import {Provider} from 'react-redux';
-import AppRoute from './src/navigation/navigator';
-import store from './src/redux/store';
 
 const App = () => {
+  const Stack = createNativeStackNavigator();
   return (
-    <Provider store={store}>
-      <AppRoute />
-    </Provider>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
