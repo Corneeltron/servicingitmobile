@@ -27,19 +27,18 @@ export const Login = () => {
   const [login, {isLoading}] = useLoginMutation();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
+  // useEffect(() => {
+  //   userRef.current.focus();
+  // }, []);
 
   useEffect(() => {
     setErrMsg('');
   }, [user, pwd]);
 
   const handleSubmit = async e => {
-    e.preventDefault();
-
+    // e.preventDefault();
     try {
-      const userData = await login({user, pwd}).unwrap();
+      const userData = await login({user, pwd}).unwrap(); // unwrap response here to get the token that we send off in dispatch on 43
       dispatch(setCredentials({...userData, user}));
       setUser('');
       setPwd('');
@@ -54,7 +53,7 @@ export const Login = () => {
       } else {
         setErrMsg('Login Failed');
       }
-      errRef.current.focus();
+      // errRef.current.focus();
     }
   };
 
@@ -62,9 +61,11 @@ export const Login = () => {
     navigation.navigate('Register');
   };
 
-  const content = isLoading ? (
-    <ActivityIndicator />
-  ) : (
+  const content = 
+  // isLoading ? (
+  //   <ActivityIndicator />
+  // ) : 
+  (
     <SafeAreaView
       style={{
         flex: 1,
@@ -94,6 +95,7 @@ export const Login = () => {
       <View>
         <TextInput
           mode="outlined"
+          autoCapitalize="none"
           testID="username-input"
           style={{marginTop: 10}}
           label="Username"
