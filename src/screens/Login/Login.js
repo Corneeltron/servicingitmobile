@@ -5,33 +5,47 @@ import React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {View, Image, SafeAreaView, StyleSheet} from 'react-native';
-import {TextInput, Button, Headline, Text} from 'react-native-paper';
+import {TextInput, Button, Text, Snackbar} from 'react-native-paper';
 import {Formik} from 'formik';
 import {loginForm} from './LoginFormValidation';
-import {show} from '../../redux/loading/loading.actions';
-import {recoverPassword} from '../../redux/login/login.actions';
+import {hide, show} from '../../redux/loading/loading.actions';
+import {
+  recoverPassword,
+  recoverPasswordFail,
+  recoverPasswordReset,
+  recoverPasswordSuccess,
+} from '../../redux/login/login.actions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from '@reduxjs/toolkit';
 import AuthService from '../../services/auth/AuthService';
 
 const Login = props => {
-  console.log('propsredux', props.loginState.isRecoveringPassword);
+  const [recoveryEmail, setRecoveryEmail] = useState('');
+  useEffect(() => {
+    if (props.loginState.isRecoveringPassword) {
+      props.showLoading();
+      AuthService.recoverPassword(recoveryEmail).then(() => {
+        props.recoverPasswordSuccess();
+      }).catch(err => {
+        props.recoverPasswordFail(err)
+      })
+    } else {
+      props.hideLoading();
+    }
+  }, [props.loginState.isRecoveringPassword]);
+
+  const forgotEmailPassword = email => {
+    setRecoveryEmail(email);
+    props.recoverPassword();
+  };
+  
   const navigation = useNavigation();
   const navigateToRegister = () => {
     navigation.navigate('Register');
   };
   const navigateToHome = () => navigation.navigate('Calendar');
-  const forgotEmailPassword = () => {
-    props.recoverPassword();
-  };
 
-  useEffect(() => {
-    if (props.loginState.isRecoveringPassword){
-      props.showLoading();
 
-      AuthService.recoverPassword();
-    }
-  }, [props.loginState.isRecoveringPassword]);
 
   const content = (
     <SafeAreaView style={styles.container} testID="search-page">
@@ -45,9 +59,9 @@ const Login = props => {
           <Image source={require('../../assets/service-it.png')} />
         </View>
         <View>
-          <Headline style={{alignSelf: 'center'}} testID="heading">
+          <Text style={{fontFamily: "Epilogue"}} variant="headlineMedium" style={{alignSelf: 'center'}} testID="heading">
             ServiceIT Login
-          </Headline>
+          </Text>
         </View>
         <View>
           <Formik
@@ -92,7 +106,7 @@ const Login = props => {
                   disabled={!values.email || errors.email}
                   style={styles.button}
                   uppercase={false}
-                  onPress={forgotEmailPassword}>
+                  onPress={() => forgotEmailPassword(values.email)}>
                   Forgot email/password
                 </Button>
                 <Button
@@ -116,6 +130,24 @@ const Login = props => {
           </Formik>
         </View>
       </View>
+      {props.loginState.isRecoveredPassword ? (
+        <Snackbar
+          duration={5000}
+          visible={true}
+          onDismiss={() => {props.recoverPasswordReset()}}
+          testID="recoverPasswordSuccess">
+          Recovery email sent!
+        </Snackbar>
+      ) : null}
+      {props.loginState.error ? (
+        <Snackbar
+          duration={5000}
+          visible={true}
+          onDismiss={() => {props.recoverPasswordReset()}}
+          testID="recoverPasswordFail">
+          {props.loginState.error.message}
+        </Snackbar>
+      ) : null}
     </SafeAreaView>
   );
 
@@ -131,7 +163,11 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       recoverPassword: recoverPassword,
+      recoverPasswordFail: recoverPasswordFail,
+      recoverPasswordSuccess: recoverPasswordSuccess,
+      recoverPasswordReset: recoverPasswordReset,
       showLoading: show,
+      hideLoading: hide,
     },
     dispatch,
   );

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
 import {Agenda} from 'react-native-calendars';
 import { Card, Avatar, Text } from 'react-native-paper';
 import { agendaItemsObj } from '../mocks/agendaItems';
@@ -50,7 +50,7 @@ export const AgendaScreen = () => {
       {item.status}
     </Text>
     return (
-      <TouchableOpacity style={styles.itemTextWrapper}>
+      <TouchableOpacity onPress={() => Alert.alert(item.name)} style={styles.itemTextWrapper}>
         <Card mode="contained" style={styles.shadowProps}>
           <Card.Content>
               <Card.Title

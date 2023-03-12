@@ -8,4 +8,5 @@ export const recoverPasswordFail = createAction(
   '[Recover password] fail',
   error => ({payload: error}),
 );
+export const recoverPasswordReset = createAction("[Recover password] reset");
 

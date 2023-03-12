@@ -4,6 +4,7 @@ import {
   recoverPassword,
   recoverPasswordSuccess,
   recoverPasswordFail,
+  recoverPasswordReset,
 } from './login.actions';
 
 const initialState = AppInitialState.login;
@@ -30,7 +31,15 @@ export const loginReducer = createReducer(initialState, builder => {
         ...currentState,
         error: action.payload,
         isRecoveredPassword: false,
-        isRecoveringPassword: true,
+        isRecoveringPassword: false,
       };
-    });
+    }),
+    builder.addCase(recoverPasswordReset, currentState => {
+      return {
+        ...currentState,
+        error: null,
+        isRecoveredPassword: false,
+        isRecoveringPassword: false,
+      };
+    })
 });
