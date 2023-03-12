@@ -1,5 +1,19 @@
 module.exports = {
   root: true,
-  extends: '@react-native-community',
-  parser: '@babel/eslint-parser',
+  env: {
+    es6: true,
+    node: true,
+  },
+  extends: [
+    "eslint:recommended",
+    "google",
+  ],
+  rules: {
+    quotes: ["error", "double"],
+  },
+  
+  // Newly added property
+  parserOptions: {
+    "ecmaVersion": 2020,
+  },
 };

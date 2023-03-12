@@ -7,7 +7,7 @@ import store from './src/redux/store';
 
 const RNRedux = () => (
   <Provider store={store}>
-    <App />
+      <App />
   </Provider>
 );
 

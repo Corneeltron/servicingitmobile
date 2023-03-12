@@ -1,7 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AsyncStorage} from '@react-native-community/async-storage';
 
 const authSlice = createSlice({
   name: 'auth',
