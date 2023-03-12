@@ -5,7 +5,6 @@ import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView, StyleSheet, ScrollView} from 'react-native';
 import {ActivityIndicator, Appbar, Button, TextInput} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
-import {registerUser} from '../redux/slices/authSlice';
 import {theme} from '../../App';
 
 export const Register = (props) => {
@@ -26,17 +25,7 @@ export const Register = (props) => {
       passwordRepeat: '',
     },
   });
-
-  const submitForm = data => {
-    // check if passwords match
-    console.log('data', data);
-    if (data.password !== data.passwordRepeat) {
-      alert('Password mismatch');
-    }
-    dispatch(registerUser(data));
-    navigation.navigate('Calendar')
-  };
-
+  
   useEffect(() => {
     // redirect user to login page if registration was successful
     if (success) {

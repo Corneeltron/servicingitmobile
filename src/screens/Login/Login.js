@@ -4,70 +4,38 @@
 import React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {
-  View,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Image, SafeAreaView, StyleSheet} from 'react-native';
 import {TextInput, Button, Headline, Text} from 'react-native-paper';
-import {useDispatch, useSelector} from 'react-redux';
-import {setCredentials} from '../../redux/slices/authSlice';
-import {useLoginMutation} from '../../redux/slices/authApiSlice';
 import {Formik} from 'formik';
-import {loginForm} from './LoginFormValidation'
+import {loginForm} from './LoginFormValidation';
+import {show} from '../../redux/loading/loading.actions';
+import {recoverPassword} from '../../redux/login/login.actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from '@reduxjs/toolkit';
+import AuthService from '../../services/auth/AuthService';
 
-export const Login = () => {
-  // const userRef = useRef();
-  // const errRef = useRef();
-  // const [email, setEmail] = useState('');
-  // const [pwd, setPwd] = useState('');
-  // const [errMsg, setErrMsg] = useState('');
+const Login = props => {
+  console.log('propsredux', props.loginState.isRecoveringPassword);
   const navigation = useNavigation();
-  // const [login, {isLoading}] = useLoginMutation();
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   setErrMsg('');
-  // }, [email, pwd]);
-
-  // const handleSubmit = async e => {
-  //   // e.preventDefault();
-  //   try {
-  //     const userData = await login({user, pwd}).unwrap(); // unwrap response here to get the token that we send off in dispatch on 43
-  //     dispatch(setCredentials({...userData, user}));
-  //     setUser('');
-  //     setPwd('');
-  //     navigation.navigate('Dashboard');
-  //   } catch (err) {
-  //     if (!err?.response) {
-  //       setErrMsg('No Server Response');
-  //     } else if (err.response?.status === 400) {
-  //       setErrMsg('Missing Username or Password');
-  //     } else if (err.response?.status === 401) {
-  //       setErrMsg('Unauthorized');
-  //     } else {
-  //       setErrMsg('Login Failed');
-  //     }
-  //   }
-  // };
-
   const navigateToRegister = () => {
     navigation.navigate('Register');
   };
+  const navigateToHome = () => navigation.navigate('Calendar');
+  const forgotEmailPassword = () => {
+    props.recoverPassword();
+  };
 
-  const navigateToHome = () => navigation.navigate('Calendar')
+  useEffect(() => {
+    if (props.loginState.isRecoveringPassword){
+      props.showLoading();
+
+      AuthService.recoverPassword();
+    }
+  }, [props.loginState.isRecoveringPassword]);
 
   const content = (
-    // isLoading ? (
-    //   <ActivityIndicator />
-    // ) :
     <SafeAreaView style={styles.container} testID="search-page">
       <View style={styles.loginContainer}>
-        {/* <Text ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>
-          {errMsg}
-        </Text> */}
         <View
           style={{
             justifyContent: 'center',
@@ -82,8 +50,18 @@ export const Login = () => {
           </Headline>
         </View>
         <View>
-          <Formik initialValues={{email: '', password: ''}} onSubmit={navigateToHome} validationSchema={loginForm}>
-            {({handleSubmit, handleChange, setFieldTouched, touched, values, errors}) => (
+          <Formik
+            initialValues={{email: '', password: ''}}
+            onSubmit={navigateToHome}
+            validationSchema={loginForm}>
+            {({
+              handleSubmit,
+              handleChange,
+              setFieldTouched,
+              touched,
+              values,
+              errors,
+            }) => (
               <>
                 <TextInput
                   mode="outlined"
@@ -95,9 +73,9 @@ export const Login = () => {
                   onChangeText={handleChange('email')}
                   onFocus={() => setFieldTouched('email')}
                 />
-                {
-                  touched.email && errors.email ? <Text style={styles.error}>{errors.email}</Text> : null
-                }
+                {touched.email && errors.email ? (
+                  <Text style={styles.error}>{errors.email}</Text>
+                ) : null}
                 <TextInput
                   secureTextEntry={true}
                   mode="outlined"
@@ -107,10 +85,14 @@ export const Login = () => {
                   onChangeText={handleChange('password')}
                   onFocus={() => setFieldTouched('password')}
                 />
-                {
-                  touched.password && errors.password ? <Text style={styles.error}>{errors.password}</Text> : null
-                }
-                <Button disabled={!values.email || errors.email} style={styles.button} uppercase={false}>
+                {touched.password && errors.password ? (
+                  <Text style={styles.error}>{errors.password}</Text>
+                ) : null}
+                <Button
+                  disabled={!values.email || errors.email}
+                  style={styles.button}
+                  uppercase={false}
+                  onPress={forgotEmailPassword}>
                   Forgot email/password
                 </Button>
                 <Button
@@ -140,6 +122,22 @@ export const Login = () => {
   return content;
 };
 
+const mapStateToProps = store => ({
+  loadingState: store.loading,
+  loginState: store.login,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      recoverPassword: recoverPassword,
+      showLoading: show,
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
@@ -155,7 +153,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   error: {
-    color: "red",
-    marginTop: 3
-  }
+    color: 'red',
+    marginTop: 3,
+  },
 });

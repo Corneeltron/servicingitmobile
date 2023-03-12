@@ -27,3 +27,19 @@
 // // export hooks for usage in functional components, which are
 // // auto-generated based on the defined endpoints
 // export const {useGetUserDetailsQuery} = authApi;
+
+class AuthService {
+  recoverPassword(email) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (email === "error@email.com"){
+          reject({message: "Email not found"})
+        } else {
+          resolve();
+        }
+      }, 3000)
+    })
+  }
+}
+
+export default new AuthService;

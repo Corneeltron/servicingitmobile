@@ -1,6 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Login} from './src/screens/Login/Login';
+import Login from './src/screens/Login/Login';
 import {Register} from './src/screens/Register';
 import {Dashboard} from './src/screens/Dashboard';
 import {Calendar} from './src/screens/Calendar';
@@ -8,10 +8,14 @@ import {AgendaScreen} from './src/screens/Agenda';
 import React from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
 import { DefaultTheme } from 'react-native-paper';
+import Loader from './src/components/Loader';
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
+    <Provider store={store}>
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
@@ -25,7 +29,9 @@ const App = () => {
           <Stack.Screen name="Calendar" component={AgendaScreen} />
         </Stack.Navigator>
       </NavigationContainer>
+      <Loader />
     </PaperProvider>
+    </Provider>
   );
 };
 

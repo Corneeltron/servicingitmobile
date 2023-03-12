@@ -1,16 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
-import {
-  selectIsLoggedIn,
-  selectEmail,
-  selectUserName,
-  setSignOut,
-} from '../redux/slices/authSlice';
 
 export const Dashboard = () => {
-  const dispatch = useDispatch();
-  const username = useSelector(selectUserName);
   return (
     <View
       style={{
