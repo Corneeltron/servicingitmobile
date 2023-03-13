@@ -1,15 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
 import {Agenda} from 'react-native-calendars';
-import { Card, Avatar, Text } from 'react-native-paper';
-import { agendaItemsObj } from '../mocks/agendaItems';
+import {Card, Avatar, Text, Button} from 'react-native-paper';
+import {agendaItemsObj} from '../mocks/agendaItems';
+import {logout} from '../redux/login/login.actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from '@reduxjs/toolkit';
 
 const timeToString = time => {
   const date = new Date(time);
   return date.toISOString().split('T')[0];
 };
 
-export const AgendaScreen = () => {
+const AgendaScreen = (props) => {
   const [items, setItems] = useState({});
   const [currentDate, setCurrentDate] = useState();
   const mockAgenda = agendaItemsObj;
@@ -41,36 +44,52 @@ export const AgendaScreen = () => {
     //   });
     //   setItems(newItems);
     // }, 1000);
-    setItems(mockData)
+    setItems(mockData);
   };
 
-  const renderItem = (item) => {
-    const subItem = <Text style={{color: "#616161", fontWeight: 300}}>
-      {item.start} - {item.end}{"\n"}
-      {item.status}
-    </Text>
+  const renderItem = item => {
+    const subItem = (
+      <Text style={{color: '#616161', fontWeight: 300}}>
+        {item.start} - {item.end}
+        {'\n'}
+        {item.status}
+      </Text>
+    );
     return (
-      <TouchableOpacity onPress={() => Alert.alert(item.name)} style={styles.itemTextWrapper}>
+      <TouchableOpacity
+        onPress={() => Alert.alert(item.name)}
+        style={styles.itemTextWrapper}>
         <Card mode="contained" style={styles.shadowProps}>
           <Card.Content>
-              <Card.Title
-                style={styles.card}
-                titleVariant="titleLarge"
-                title={item.name}
-                subtitle={subItem}
-                subtitleNumberOfLines={2}
-                right={(props) => <Avatar.Text {...props} label={item.name === "Ron" ? "R" : item.name === "Jason" ? "J" : "T"} />}
-              />
+            <Card.Title
+              style={styles.card}
+              titleVariant="titleLarge"
+              title={item.name}
+              subtitle={subItem}
+              subtitleNumberOfLines={2}
+              right={props => (
+                <Avatar.Text
+                  {...props}
+                  label={
+                    item.name === 'Ron'
+                      ? 'R'
+                      : item.name === 'Jason'
+                      ? 'J'
+                      : 'T'
+                  }
+                />
+              )}
+            />
           </Card.Content>
         </Card>
       </TouchableOpacity>
     );
-  }
+  };
 
   useEffect(() => {
-    const date = new Date().toISOString().split('T')[0]
+    const date = new Date().toISOString().split('T')[0];
     setCurrentDate(date);
-  }, [currentDate])
+  }, [currentDate]);
 
   return (
     <View style={styles.container}>
@@ -79,30 +98,45 @@ export const AgendaScreen = () => {
         items={items}
         loadItemsForMonth={loadItems}
         selected={currentDate}
-        renderItem={(renderItem)}
+        renderItem={renderItem}
       />
     </View>
   );
 };
 
+const mapStateToProps = store => ({
+  loadingState: store.loading,
+  loginState: store.login,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      logout: logout,
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(AgendaScreen);
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
-  shadowProps:{
+  shadowProps: {
     shadowColor: '#171717',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
   card: {
-    minHeight: "auto",
+    minHeight: 'auto',
   },
   label: {
     paddingTop: 5,
   },
   itemTextWrapper: {
-    marginRight: 10, 
-    marginTop: 17
-  }
+    marginRight: 10,
+    marginTop: 17,
+  },
 });
