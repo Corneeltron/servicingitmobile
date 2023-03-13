@@ -40,6 +40,21 @@ class AuthService {
       }, 3000)
     })
   }
+  login(email, password) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (email === "error@email.com") {
+          reject({message: "User not found"})
+        } else {
+          const user = {
+            email,
+            id: "userId"
+          }
+          resolve(user);
+        }
+      }, 3000)
+    })
+  }
 }
 
 export default new AuthService;

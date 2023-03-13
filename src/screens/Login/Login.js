@@ -1,15 +1,14 @@
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable no-shadow */
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {useEffect, useRef, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {View, Image, SafeAreaView, StyleSheet} from 'react-native';
-import {TextInput, Button, Text, Snackbar} from 'react-native-paper';
+import {TextInput, Button, Text, Snackbar, useTheme} from 'react-native-paper';
 import {Formik} from 'formik';
 import {loginForm} from './LoginFormValidation';
 import {hide, show} from '../../redux/loading/loading.actions';
 import {
+  login,
+  loginFail,
+  loginSuccess,
   recoverPassword,
   recoverPasswordFail,
   recoverPasswordReset,
@@ -20,32 +19,53 @@ import {bindActionCreators} from '@reduxjs/toolkit';
 import AuthService from '../../services/auth/AuthService';
 
 const Login = props => {
+  const theme = useTheme();
+  const {navigation} = props;
   const [recoveryEmail, setRecoveryEmail] = useState('');
+  const [userLogin, setUserLogin] = useState({email: '', password: ''});
+
+  const navigateToRegister = () => {
+    navigation.navigate('Register');
+  };
+  
   useEffect(() => {
     if (props.loginState.isRecoveringPassword) {
       props.showLoading();
-      AuthService.recoverPassword(recoveryEmail).then(() => {
-        props.recoverPasswordSuccess();
-      }).catch(err => {
-        props.recoverPasswordFail(err)
-      })
+      AuthService.recoverPassword(recoveryEmail)
+        .then(() => {
+          props.recoverPasswordSuccess();
+        })
+        .catch(err => {
+          props.recoverPasswordFail(err);
+        });
     } else {
       props.hideLoading();
     }
   }, [props.loginState.isRecoveringPassword]);
 
+  useEffect(() => {
+    if (props.loginState.isLoggingIn) {
+      props.showLoading();
+      
+      AuthService.login(userLogin.email, userLogin.password).then(user => {
+        props.loginSuccess(user);
+      }).catch(err => {
+        props.loginFail(err);
+      })
+    } else {
+      props.hideLoading();
+    }
+  }, [props.loginState.isLoggingIn]);
+
   const forgotEmailPassword = email => {
     setRecoveryEmail(email);
     props.recoverPassword();
   };
-  
-  const navigation = useNavigation();
-  const navigateToRegister = () => {
-    navigation.navigate('Register');
+
+  const login = userLogin => {
+    setUserLogin(userLogin);
+    props.login();
   };
-  const navigateToHome = () => navigation.navigate('Calendar');
-
-
 
   const content = (
     <SafeAreaView style={styles.container} testID="search-page">
@@ -59,14 +79,17 @@ const Login = props => {
           <Image source={require('../../assets/service-it.png')} />
         </View>
         <View>
-          <Text style={{fontFamily: "Epilogue"}} variant="headlineMedium" style={{alignSelf: 'center'}} testID="heading">
-            ServiceIT Login
+          <Text
+            style={{ color: theme.colors.primary, fontFamily: 'Epilogue', fontWeight: 600, alignSelf: "center"}}
+            variant="titleLarge"
+            testID="heading">
+            ServiceIT <Text style={{color: theme.colors.primary, fontWeight: 300}}>Login</Text>
           </Text>
         </View>
         <View>
           <Formik
             initialValues={{email: '', password: ''}}
-            onSubmit={navigateToHome}
+            onSubmit={login}
             validationSchema={loginForm}>
             {({
               handleSubmit,
@@ -134,7 +157,9 @@ const Login = props => {
         <Snackbar
           duration={5000}
           visible={true}
-          onDismiss={() => {props.recoverPasswordReset()}}
+          onDismiss={() => {
+            props.recoverPasswordReset();
+          }}
           testID="recoverPasswordSuccess">
           Recovery email sent!
         </Snackbar>
@@ -143,8 +168,10 @@ const Login = props => {
         <Snackbar
           duration={5000}
           visible={true}
-          onDismiss={() => {props.recoverPasswordReset()}}
-          testID="recoverPasswordFail">
+          onDismiss={() => {
+            props.recoverPasswordReset();
+          }}
+          testID="errorMessage">
           {props.loginState.error.message}
         </Snackbar>
       ) : null}
@@ -162,6 +189,9 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      login: login,
+      loginSuccess: loginSuccess,
+      loginFail: loginFail,
       recoverPassword: recoverPassword,
       recoverPasswordFail: recoverPasswordFail,
       recoverPasswordSuccess: recoverPasswordSuccess,

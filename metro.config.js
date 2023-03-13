@@ -13,8 +13,5 @@ module.exports = {
         inlineRequires: true,
       },
     }),
-  },
-  assets: [
-    './src/assets/fonts'
-  ]
+  }
 };

@@ -28,6 +28,8 @@
 		2523ED5E29AF0156004795EA /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2523ED4E29AF0156004795EA /* EvilIcons.ttf */; };
 		2523ED5F29AF0156004795EA /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2523ED4F29AF0156004795EA /* SimpleLineIcons.ttf */; };
 		2523ED6029AF0156004795EA /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2523ED5029AF0156004795EA /* MaterialIcons.ttf */; };
+		411FA49D8856415FB71A47D2 /* Epilogue-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F65262A8C50B4478A93A0A8F /* Epilogue-VariableFont_wght.ttf */; };
+		4BB876B4F05E49B5B098B07B /* Epilogue-Italic-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B33118F77E154553BAE54885 /* Epilogue-Italic-VariableFont_wght.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-servicingitmobile-servicingitmobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-servicingitmobile-servicingitmobileTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -75,7 +77,9 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-servicingitmobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-servicingitmobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = servicingitmobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-servicingitmobile-servicingitmobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-servicingitmobile-servicingitmobileTests.release.xcconfig"; path = "Target Support Files/Pods-servicingitmobile-servicingitmobileTests/Pods-servicingitmobile-servicingitmobileTests.release.xcconfig"; sourceTree = "<group>"; };
+		B33118F77E154553BAE54885 /* Epilogue-Italic-VariableFont_wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Epilogue-Italic-VariableFont_wght.ttf"; path = "../assets/fonts/Epilogue-Italic-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F65262A8C50B4478A93A0A8F /* Epilogue-VariableFont_wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Epilogue-VariableFont_wght.ttf"; path = "../assets/fonts/Epilogue-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +167,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6F76DA15776348C4A365CA47 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B33118F77E154553BAE54885 /* Epilogue-Italic-VariableFont_wght.ttf */,
+				F65262A8C50B4478A93A0A8F /* Epilogue-VariableFont_wght.ttf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +193,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				6F76DA15776348C4A365CA47 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -317,6 +332,8 @@
 				2523ED5A29AF0156004795EA /* FontAwesome5_Solid.ttf in Resources */,
 				2523ED5629AF0156004795EA /* MaterialCommunityIcons.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				4BB876B4F05E49B5B098B07B /* Epilogue-Italic-VariableFont_wght.ttf in Resources */,
+				411FA49D8856415FB71A47D2 /* Epilogue-VariableFont_wght.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

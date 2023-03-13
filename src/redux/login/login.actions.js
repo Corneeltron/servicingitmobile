@@ -10,3 +10,7 @@ export const recoverPasswordFail = createAction(
 );
 export const recoverPasswordReset = createAction("[Recover password] reset");
 
+export const login = createAction("[Login]");
+export const loginSuccess = createAction("[Login] success", (user) => ({payload: user}));
+export const loginFail = createAction("[Login] fail", (err) => ({payload: err}));
+export const logout = createAction("[Login] logout");

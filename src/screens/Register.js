@@ -1,16 +1,12 @@
 /* eslint-disable react/react-in-jsx-scope */
 import {useEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView, StyleSheet, ScrollView} from 'react-native';
-import {ActivityIndicator, Appbar, Button, TextInput} from 'react-native-paper';
-import {useDispatch, useSelector} from 'react-redux';
-import {theme} from '../../App';
+import {useTheme, Button, TextInput} from 'react-native-paper';
 
 export const Register = (props) => {
   const {navigation} = props;
-  const dispatch = useDispatch();
-  const {loading, userInfo, error, success} = useSelector(state => state.auth);
+  const theme = useTheme();
 
   const {
     handleSubmit,
@@ -26,16 +22,16 @@ export const Register = (props) => {
     },
   });
   
-  useEffect(() => {
-    // redirect user to login page if registration was successful
-    if (success) {
-      navigation.navigate('/login');
-    }
-    // redirect authenticated user to profile screen
-    if (userInfo) {
-      navigation.navigate('Dashboard');
-    }
-  }, [navigation, userInfo, success]);
+  // useEffect(() => {
+  //   // redirect user to login page if registration was successful
+  //   if (success) {
+  //     navigation.navigate('/login');
+  //   }
+  //   // redirect authenticated user to profile screen
+  //   if (userInfo) {
+  //     navigation.navigate('Calendar');
+  //   }
+  // }, [navigation]);
 
   return (
     <SafeAreaView
@@ -93,7 +89,7 @@ export const Register = (props) => {
               onChangeText={password => onChange(password)}
               value={value}
               secureTextEntry={true}
-              right={<TextInput.Icon color={styles.icon.color} icon="eye" />}
+              right={<TextInput.Icon color={theme.colors.primary} icon="eye" />}
             />
           )}
           name="password"
@@ -112,7 +108,7 @@ export const Register = (props) => {
               onChangeText={passwordRepeat => onChange(passwordRepeat)}
               value={value}
               secureTextEntry={true}
-              right={<TextInput.Icon color={styles.icon.color} icon="eye" />}
+              right={<TextInput.Icon color={theme.colors.primary} icon="eye" />}
             />
           )}
           name="passwordRepeat"
@@ -126,7 +122,8 @@ export const Register = (props) => {
           // onPress={handleSubmit(submitForm)}
           onPress={() => navigation.navigate('Calendar')}
           >
-          {loading ? <ActivityIndicator /> : 'Register'}
+            Register
+          {/* {loading ? <ActivityIndicator /> : 'Register'} */}
         </Button>
       </ScrollView>
     </SafeAreaView>
@@ -144,10 +141,7 @@ const styles = StyleSheet.create({
     width: "80%"
   },
   button: {
-    marginTop: 10,
+    marginTop: 20,
     marginHorizontal: 10,
   },
-  icon: {
-    color: theme.colors.primary
-  }
 });

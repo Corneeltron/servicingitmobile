@@ -1,45 +1,62 @@
+import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
+import Navigation from './src/components/Navigation';
 import Login from './src/screens/Login/Login';
 import {Register} from './src/screens/Register';
-import {Dashboard} from './src/screens/Dashboard';
-import {Calendar} from './src/screens/Calendar';
-import {AgendaScreen} from './src/screens/Agenda';
-import React from 'react';
+import AgendaScreen from './src/screens/Agenda';
+import React, {useEffect} from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
-import { DefaultTheme } from 'react-native-paper';
+import {DefaultTheme} from 'react-native-paper';
 import Loader from './src/components/Loader';
-import {Provider} from 'react-redux';
-import store from './src/redux/store';
+import {connect} from 'react-redux';
+import {bindActionCreators} from '@reduxjs/toolkit';
+import { hide } from './src/redux/loading/loading.actions';
 
-const App = () => {
-  const Stack = createNativeStackNavigator();
+const App = props => {
+  const Stack = createStackNavigator();
+
+  useEffect(() => {
+    if (props.loginState.isLoggedIn) {
+      props.hideLoading();
+    }
+    console.log('logged in!', props.loginState.isLoggedIn)
+  }, [props.loginState.isLoggedIn]);
+
   return (
-    <Provider store={store}>
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="Home"
-            component={Login}
-          />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen name="Calendar" component={AgendaScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      <Loader />
-    </PaperProvider>
-    </Provider>
+      <PaperProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login" screenOptions={{header: (props) => <Navigation {...props} />}}>
+            {props.loginState.isLoggedIn ? (
+              <Stack.Screen name="Calendar" component={AgendaScreen} />
+            ) : (
+              <>
+                <Stack.Screen
+                  options={{headerShown: false}}
+                  name="Login"
+                  component={Login}
+                />
+                <Stack.Screen name="Register" component={Register} />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+        <Loader />
+      </PaperProvider>
   );
 };
 
-export const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: "#fff"
-  }
-}
-export default App;
+
+const mapStateToProps = store => ({
+  loginState: store.login,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      hideLoading: hide,
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
