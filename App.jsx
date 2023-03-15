@@ -20,7 +20,6 @@ const App = props => {
     if (props.loginState.isLoggedIn) {
       props.hideLoading();
     }
-    console.log('logged in!', props.loginState.isLoggedIn)
   }, [props.loginState.isLoggedIn]);
 
   return (
@@ -45,7 +44,6 @@ const App = props => {
       </PaperProvider>
   );
 };
-
 
 const mapStateToProps = store => ({
   loginState: store.login,
