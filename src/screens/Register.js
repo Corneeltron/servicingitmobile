@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import {useEffect} from 'react';
+import {useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView, StyleSheet, ScrollView} from 'react-native';
 import {useTheme, Button, TextInput} from 'react-native-paper';
@@ -7,6 +7,9 @@ import {useTheme, Button, TextInput} from 'react-native-paper';
 export const Register = (props) => {
   const {navigation} = props;
   const theme = useTheme();
+
+  const [passwordIsVisible, setPasswordIsVisible] = useState(true);
+  const [repeatPasswordIsVisible, setRepeatPasswordIsVisible] = useState(true);
 
   const {
     handleSubmit,
@@ -80,7 +83,6 @@ export const Register = (props) => {
           control={control}
           render={({field: {onChange, onBlur, value}}) => (
             <TextInput
-              secureTextEntry={true}
               mode="outlined"
               testID="password-input"
               style={{marginTop: 10}}
@@ -88,8 +90,8 @@ export const Register = (props) => {
               onBlur={onBlur}
               onChangeText={password => onChange(password)}
               value={value}
-              secureTextEntry={true}
-              right={<TextInput.Icon color={theme.colors.primary} icon="eye" />}
+              secureTextEntry={passwordIsVisible}
+              right={<TextInput.Icon onPress={() => setPasswordIsVisible(!passwordIsVisible)} color={theme.colors.primary} icon="eye" />}
             />
           )}
           name="password"
@@ -99,7 +101,6 @@ export const Register = (props) => {
           control={control}
           render={({field: {onChange, onBlur, value}}) => (
             <TextInput
-              secureTextEntry={true}
               mode="outlined"
               testID="password-repeat-input"
               style={{marginTop: 10}}
@@ -107,8 +108,8 @@ export const Register = (props) => {
               onBlur={onBlur}
               onChangeText={passwordRepeat => onChange(passwordRepeat)}
               value={value}
-              secureTextEntry={true}
-              right={<TextInput.Icon color={theme.colors.primary} icon="eye" />}
+              secureTextEntry={repeatPasswordIsVisible}
+              right={<TextInput.Icon onPress={() => setRepeatPasswordIsVisible(!repeatPasswordIsVisible)} color={theme.colors.primary} icon="eye" />}
             />
           )}
           name="passwordRepeat"
@@ -119,7 +120,6 @@ export const Register = (props) => {
           style={styles.button}
           icon="account-plus"
           mode="outlined"
-          // onPress={handleSubmit(submitForm)}
           onPress={() => navigation.navigate('Calendar')}
           >
             Register
