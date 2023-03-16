@@ -16,7 +16,10 @@ import {
 } from '../../redux/login/login.actions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from '@reduxjs/toolkit';
-import AuthService from '../../services/auth/AuthService';
+import AuthService from '../../services/auth/authService';
+import axios from 'axios';
+
+loginUrl = 'https://mygaragedoc.azurewebsites.net/api/user/login';
 
 const Login = props => {
   const theme = useTheme();
@@ -43,15 +46,25 @@ const Login = props => {
     }
   }, [props.loginState.isRecoveringPassword]);
 
+
+  const authLogin = async (email, password) => {
+    try {
+      const res = await axios.post(loginUrl, JSON.stringify({"UserName": email, "Password": password}), {
+        headers: {'Content-Type': 'application/json'},
+        withCredentials: true,
+      });
+      console.log('res', res)
+      props.loginSuccess(res);
+    } catch (err) {
+      console.log('err', err)
+      props.loginFail(err)
+    }
+  };
+
   useEffect(() => {
     if (props.loginState.isLoggingIn) {
       props.showLoading();
-      
-      AuthService.login(userLogin.email, userLogin.password).then(user => {
-        props.loginSuccess(user);
-      }).catch(err => {
-        props.loginFail(err);
-      })
+      authLogin(userLogin.email, userLogin.password)
     } else {
       props.hideLoading();
     }

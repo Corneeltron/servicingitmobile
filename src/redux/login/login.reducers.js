@@ -54,11 +54,12 @@ export const loginReducer = createReducer(initialState, builder => {
         isLoggingIn: true,
       };
     }),
-    builder.addCase(loginSuccess, currentState => {
+    builder.addCase(loginSuccess, (currentState, action) => {
       return {
         ...currentState,
         isLoggedIn: true,
         isLoggingIn: false,
+        token: action.payload.data.token
       };
     }),
     builder.addCase(loginFail, (currentState, action) => {
@@ -73,6 +74,7 @@ export const loginReducer = createReducer(initialState, builder => {
       return {
         ...currentState,
         isLoggedIn: false,
+        token: null,
       };
     });
 });

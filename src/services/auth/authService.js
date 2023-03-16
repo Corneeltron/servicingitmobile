@@ -28,33 +28,35 @@
 // // auto-generated based on the defined endpoints
 // export const {useGetUserDetailsQuery} = authApi;
 
+loginUrl = 'https://mygaragedoc.azurewebsites.net/api/user/login';
+
 class AuthService {
   recoverPassword(email) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (email === "error@email.com"){
-          reject({message: "Email not found"})
+        if (email === 'error@email.com') {
+          reject({message: 'Email not found'});
         } else {
           resolve();
         }
-      }, 3000)
-    })
+      }, 3000);
+    });
   }
   login(email, password) {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (email === "error@email.com") {
-          reject({message: "User not found"})
-        } else {
-          const user = {
-            email,
-            id: "userId"
-          }
-          resolve(user);
-        }
-      }, 3000)
-    })
+      // setTimeout(() => {
+      //   if (email === 'error@email.com') {
+      //     reject({message: 'User not found'});
+      //   } else {
+      //     const user = {
+      //       email,
+      //       id: 'userId',
+      //     };
+      //     resolve(user);
+      //   }
+      // }, 3000);
+    });
   }
 }
 
-export default new AuthService;
+export default new AuthService();

@@ -1,13 +1,30 @@
-import {configureStore} from '@reduxjs/toolkit';
-import { loadingReducer } from './loading/loading.reducers';
-import { loginReducer } from './login/login.reducers';
+import AsyncStorage from '@react-native-community/async-storage';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {loadingReducer} from './loading/loading.reducers';
+import {loginReducer} from './login/login.reducers';
+import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import logger from 'redux-logger';
 
-export const reducers = {
+
+export const reducers = combineReducers({
   loading: loadingReducer,
-  login: loginReducer
+  login: loginReducer,
+});
+
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage
 };
 
-export default configureStore({
-  reducer: reducers,
+const persistedReducer = persistReducer(persistConfig, reducers);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(logger),
   devTools: true,
 });
+
+export default store;

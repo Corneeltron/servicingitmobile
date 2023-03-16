@@ -17,16 +17,16 @@ const App = props => {
   const Stack = createStackNavigator();
 
   useEffect(() => {
-    if (props.loginState.isLoggedIn) {
+    if (props.loginState.token) {
       props.hideLoading();
     }
-  }, [props.loginState.isLoggedIn]);
+  }, [props.loginState.token]);
 
   return (
       <PaperProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login" screenOptions={{header: (props) => <Navigation {...props} />}}>
-            {props.loginState.isLoggedIn ? (
+            {props.loginState.token ? (
               <Stack.Screen name="Calendar" component={AgendaScreen} />
             ) : (
               <>
