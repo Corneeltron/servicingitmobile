@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import {Text, Card} from 'react-native-paper';
+import {Text, Card, Avatar} from 'react-native-paper';
 
 export default function AgendaItem(props) {
   const [selected, setSelected] = useState(false);
@@ -12,6 +12,8 @@ export default function AgendaItem(props) {
 
     setSelected(idx);
   };
+
+  const avatarLetter = props.item.name.slice(0,1)
 
   const subItem = (
     <Text style={{color: '#616161', fontWeight: 300}}>
@@ -28,17 +30,15 @@ export default function AgendaItem(props) {
         <Card mode="contained" style={styles.shadowProps}>
           <Card.Content>
             <Card.Title
-              style={styles.card}
               titleVariant="titleLarge"
               title={props.item.name}
               subtitle={subItem}
               subtitleNumberOfLines={2}
               right={props => (
-                <Avatar.Text {...props} label={props.item.name.slice(0, 1)} />
+                <Avatar.Text {...props} label={`${avatarLetter}`} />
               )}
             />
-
-            <Text variant="bodySmall">{props.item.value}</Text>
+            <Text style={selected ? styles.contentShow : styles.content} variant="bodySmall">{props.item.value}</Text>
           </Card.Content>
         </Card>
       </TouchableOpacity>
@@ -97,16 +97,14 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    color: '#8b7f75',
     maxHeight: 0,
     overflow: 'hidden',
-    transition: 'all 0.5s cubic-bezier(0,1,0,1)',
   },
 
   contentShow: {
     height: 'auto',
+    padding: 15,
     overflow: 'hidden',
     maxHeight: 9999,
-    transition: 'all 0.5s cubic-bezier(1,0,1,0)',
   },
 });

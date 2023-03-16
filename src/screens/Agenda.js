@@ -6,6 +6,7 @@ import {agendaItemsObj} from '../mocks/agendaItems';
 import {logout} from '../redux/login/login.actions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from '@reduxjs/toolkit';
+import AgendaItem from '../components/AgendaItem';
 
 const timeToString = time => {
   const date = new Date(time);
@@ -56,33 +57,34 @@ const AgendaScreen = (props) => {
       </Text>
     );
     return (
-      <TouchableOpacity
-        onPress={() => Alert.alert(item.name)}
-        style={styles.itemTextWrapper}>
-        <Card mode="contained" style={styles.shadowProps}>
-          <Card.Content>
-            <Card.Title
-              style={styles.card}
-              titleVariant="titleLarge"
-              title={item.name}
-              subtitle={subItem}
-              subtitleNumberOfLines={2}
-              right={props => (
-                <Avatar.Text
-                  {...props}
-                  label={
-                    item.name === 'Ron'
-                      ? 'R'
-                      : item.name === 'Jason'
-                      ? 'J'
-                      : 'T'
-                  }
-                />
-              )}
-            />
-          </Card.Content>
-        </Card>
-      </TouchableOpacity>
+      <AgendaItem item={item} />
+      // <TouchableOpacity
+      //   onPress={() => Alert.alert(item.name)}
+      //   style={styles.itemTextWrapper}>
+      //   <Card mode="contained" style={styles.shadowProps}>
+      //     <Card.Content>
+      //       <Card.Title
+      //         style={styles.card}
+      //         titleVariant="titleLarge"
+      //         title={item.name}
+      //         subtitle={subItem}
+      //         subtitleNumberOfLines={2}
+      //         right={props => (
+      //           <Avatar.Text
+      //             {...props}
+      //             label={
+      //               item.name === 'Ron'
+      //                 ? 'R'
+      //                 : item.name === 'Jason'
+      //                 ? 'J'
+      //                 : 'T'
+      //             }
+      //           />
+      //         )}
+      //       />
+      //     </Card.Content>
+      //   </Card>
+      // </TouchableOpacity>
     );
   };
 
