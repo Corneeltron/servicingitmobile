@@ -4,47 +4,36 @@ import {View, Image, SafeAreaView, StyleSheet} from 'react-native';
 import {TextInput, Button, Text, Snackbar, useTheme} from 'react-native-paper';
 import {Formik} from 'formik';
 import {loginForm} from './LoginFormValidation';
-import {hide, show} from '../../redux/loading/loading.actions';
-import {
-  login,
-  loginFail,
-  loginSuccess,
-  recoverPassword,
-  recoverPasswordFail,
-  recoverPasswordReset,
-  recoverPasswordSuccess,
-} from '../../redux/login/login.actions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from '@reduxjs/toolkit';
-import AuthService from '../../services/auth/authService';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../../redux/slices/authSlice';
 
 loginUrl = 'https://mygaragedoc.azurewebsites.net/api/user/login';
 
 const Login = props => {
   const theme = useTheme();
   const {navigation} = props;
-  const [recoveryEmail, setRecoveryEmail] = useState('');
+  // const [recoveryEmail, setRecoveryEmail] = useState('');
   const [userLogin, setUserLogin] = useState({email: '', password: ''});
 
   const navigateToRegister = () => {
     navigation.navigate('Register');
   };
   
-  useEffect(() => {
-    if (props.loginState.isRecoveringPassword) {
-      props.showLoading();
-      AuthService.recoverPassword(recoveryEmail)
-        .then(() => {
-          props.recoverPasswordSuccess();
-        })
-        .catch(err => {
-          props.recoverPasswordFail(err);
-        });
-    } else {
-      props.hideLoading();
-    }
-  }, [props.loginState.isRecoveringPassword]);
+  // useEffect(() => {
+  //   if (props.loginState.isRecoveringPassword) {
+  //     props.showLoading();
+  //     AuthService.recoverPassword(recoveryEmail)
+  //       .then(() => {
+  //         props.recoverPasswordSuccess();
+  //       })
+  //       .catch(err => {
+  //         props.recoverPasswordFail(err);
+  //       });
+  //   } else {
+  //     props.hideLoading();
+  //   }
+  // }, [props.loginState.isRecoveringPassword]);
 
 
   const authLogin = async (email, password) => {
@@ -53,8 +42,7 @@ const Login = props => {
         headers: {'Content-Type': 'application/json'},
         withCredentials: true,
       });
-      console.log('res', res)
-      props.loginSuccess(res);
+      useDispatch(setToken(res.data.token))
     } catch (err) {
       console.log('err', err)
       props.loginFail(err)
@@ -193,29 +181,6 @@ const Login = props => {
 
   return content;
 };
-
-const mapStateToProps = store => ({
-  loadingState: store.loading,
-  loginState: store.login,
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      login: login,
-      loginSuccess: loginSuccess,
-      loginFail: loginFail,
-      recoverPassword: recoverPassword,
-      recoverPasswordFail: recoverPasswordFail,
-      recoverPasswordSuccess: recoverPasswordSuccess,
-      recoverPasswordReset: recoverPasswordReset,
-      showLoading: show,
-      hideLoading: hide,
-    },
-    dispatch,
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   container: {
