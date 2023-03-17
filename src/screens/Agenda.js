@@ -49,42 +49,8 @@ const AgendaScreen = (props) => {
   };
 
   const renderItem = item => {
-    const subItem = (
-      <Text style={{color: '#616161', fontWeight: 300}}>
-        {item.start} - {item.end}
-        {'\n'}
-        {item.status}
-      </Text>
-    );
     return (
       <AgendaItem item={item} />
-      // <TouchableOpacity
-      //   onPress={() => Alert.alert(item.name)}
-      //   style={styles.itemTextWrapper}>
-      //   <Card mode="contained" style={styles.shadowProps}>
-      //     <Card.Content>
-      //       <Card.Title
-      //         style={styles.card}
-      //         titleVariant="titleLarge"
-      //         title={item.name}
-      //         subtitle={subItem}
-      //         subtitleNumberOfLines={2}
-      //         right={props => (
-      //           <Avatar.Text
-      //             {...props}
-      //             label={
-      //               item.name === 'Ron'
-      //                 ? 'R'
-      //                 : item.name === 'Jason'
-      //                 ? 'J'
-      //                 : 'T'
-      //             }
-      //           />
-      //         )}
-      //       />
-      //     </Card.Content>
-      //   </Card>
-      // </TouchableOpacity>
     );
   };
 

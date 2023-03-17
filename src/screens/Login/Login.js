@@ -5,20 +5,22 @@ import {TextInput, Button, Text, Snackbar, useTheme} from 'react-native-paper';
 import {Formik} from 'formik';
 import {loginForm} from './LoginFormValidation';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setToken } from '../../redux/slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setToken, setLoading, setError, clearError } from '../../redux/slices/authSlice';
 
 loginUrl = 'https://mygaragedoc.azurewebsites.net/api/user/login';
 
-const Login = props => {
+export default Login = props => {
   const theme = useTheme();
   const {navigation} = props;
+  const dispatch = useDispatch();
+  const error = useSelector((state) => state.error)
   // const [recoveryEmail, setRecoveryEmail] = useState('');
-  const [userLogin, setUserLogin] = useState({email: '', password: ''});
 
   const navigateToRegister = () => {
     navigation.navigate('Register');
   };
+
   
   // useEffect(() => {
   //   if (props.loginState.isRecoveringPassword) {
@@ -36,37 +38,26 @@ const Login = props => {
   // }, [props.loginState.isRecoveringPassword]);
 
 
-  const authLogin = async (email, password) => {
+  const handleLogin = async ({email, password}) => {
+    dispatch(setLoading(true));
     try {
       const res = await axios.post(loginUrl, JSON.stringify({"UserName": email, "Password": password}), {
         headers: {'Content-Type': 'application/json'},
         withCredentials: true,
       });
-      useDispatch(setToken(res.data.token))
+      dispatch(setToken(res.data.token))
     } catch (err) {
       console.log('err', err)
-      props.loginFail(err)
+      dispatch(setError('Failed to log in'));
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
-  useEffect(() => {
-    if (props.loginState.isLoggingIn) {
-      props.showLoading();
-      authLogin(userLogin.email, userLogin.password)
-    } else {
-      props.hideLoading();
-    }
-  }, [props.loginState.isLoggingIn]);
-
-  const forgotEmailPassword = email => {
-    setRecoveryEmail(email);
-    props.recoverPassword();
-  };
-
-  const login = userLogin => {
-    setUserLogin(userLogin);
-    props.login();
-  };
+  // const forgotEmailPassword = email => {
+  //   setRecoveryEmail(email);
+  //   props.recoverPassword();
+  // };
 
   const content = (
     <SafeAreaView style={styles.container} testID="search-page">
@@ -90,42 +81,44 @@ const Login = props => {
         <View>
           <Formik
             initialValues={{email: '', password: ''}}
-            onSubmit={login}
-            validationSchema={loginForm}>
+            onSubmit={handleLogin}
+            validationSchema={loginForm}
+            validateOnBlur
+            >
             {({
-              handleSubmit,
               handleChange,
+              handleBlur,
+              handleSubmit,
               setFieldTouched,
-              touched,
               values,
               errors,
             }) => (
               <>
                 <TextInput
                   mode="outlined"
+                  autoCorrect={false}
                   keyboardType="email-address"
                   autoCapitalize="none"
                   testID="email-input"
                   style={{marginTop: 10}}
                   label="E-mail"
                   onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
                   onFocus={() => setFieldTouched('email')}
                 />
-                {touched.email && errors.email ? (
-                  <Text style={styles.error}>{errors.email}</Text>
-                ) : null}
+                {errors.email && <Text style={styles.error}>{errors.email}</Text>}
                 <TextInput
                   secureTextEntry={true}
+                  autoCorrect={false}
                   mode="outlined"
                   testID="password-input"
                   style={{marginTop: 10}}
                   label="Password"
                   onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
                   onFocus={() => setFieldTouched('password')}
                 />
-                {touched.password && errors.password ? (
-                  <Text style={styles.error}>{errors.password}</Text>
-                ) : null}
+                {errors.password && <Text style={styles.error}>{errors.password}</Text>}
                 <Button
                   disabled={!values.email || errors.email}
                   style={styles.button}
@@ -154,7 +147,7 @@ const Login = props => {
           </Formik>
         </View>
       </View>
-      {props.loginState.isRecoveredPassword ? (
+      {/* {props.loginState.isRecoveredPassword ? (
         <Snackbar
           duration={5000}
           visible={true}
@@ -164,16 +157,14 @@ const Login = props => {
           testID="recoverPasswordSuccess">
           Recovery email sent!
         </Snackbar>
-      ) : null}
-      {props.loginState.error ? (
+      ) : null} */}
+      {error ? (
         <Snackbar
           duration={5000}
           visible={true}
-          onDismiss={() => {
-            props.recoverPasswordReset();
-          }}
+          onDismiss={() => dispatch(clearError(null))}
           testID="errorMessage">
-          {props.loginState.error.message}
+          {error}
         </Snackbar>
       ) : null}
     </SafeAreaView>

@@ -1,25 +1,20 @@
 import {useState} from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import {Text, Card, Avatar} from 'react-native-paper';
 
 export default function AgendaItem(props) {
+  const {item} = props;
+  const {customer} = item;
   const [selected, setSelected] = useState(false);
 
-  const toggle = idx => {
-    if (selected === idx) {
-      return setSelected(null);
-    }
-
-    setSelected(idx);
-  };
-
-  const avatarLetter = props.item.name.slice(0,1)
+  const avatarLetter = item.name.slice(0,1)
 
   const subItem = (
     <Text style={{color: '#616161', fontWeight: 300}}>
-      {props.item.start} - {props.item.end}
+      {item.start} - {item.end}
       {'\n'}
-      {props.item.status}
+      {item.status}
     </Text>
   );
   return (
@@ -31,15 +26,24 @@ export default function AgendaItem(props) {
           <Card.Content>
             <Card.Title
               titleVariant="titleLarge"
-              title={props.item.name}
+              title={item.name}
               subtitle={subItem}
               subtitleNumberOfLines={2}
               right={props => (
                 <Avatar.Text {...props} label={`${avatarLetter}`} />
               )}
             />
-              <Text>Customer Information</Text>
             <View style={styles.customerInfo} variant="bodySmall">
+              <Text style={{fontWeight: 600}}>Customer Information{"\n"}</Text>
+              <View>
+                <View style={{display: 'flex', flexDirection: 'row', width: '70%', justifyContent: 'space-between'}}><Text>Name:</Text><Text>{customer.name}</Text></View>
+                <View style={{display: 'flex', flexDirection: 'row', width: '70%', justifyContent: 'space-between'}}><Text>Notes:</Text><Text>{customer.notes}</Text></View>
+                <View style={{display: 'flex', flexDirection: 'row', width: '70%', justifyContent: 'space-between'}}><Text>Phone:</Text><Text>{customer.phone}</Text></View>
+                <View style={{display: 'flex', flexDirection: 'row', width: '70%', justifyContent: 'space-between'}}><Text>Email:</Text><Text>{customer.email}</Text></View>
+                <View style={{display: 'flex', flexDirection: 'row', width: '70%', justifyContent: 'space-between'}}><Text>Address:</Text><Text>{customer.addressLine1}</Text></View>
+                <View style={{display: 'flex', flexDirection: 'row', width: '70%', justifyContent: 'space-between'}}><Text>Name:</Text><Text>{customer.addressLine2}</Text></View>
+                <View style={{display: 'flex', flexDirection: 'row', width: '70%', justifyContent: 'space-between'}}><Text>Name:</Text><Text>{customer.addressLine3}</Text></View>
+              </View>
               </View>
           </Card.Content>
         </Card>
@@ -64,9 +68,7 @@ const styles = StyleSheet.create({
     maxHeight: 9999,
   },
   customerInfo: {
-    display: 'grid',
-    width: '90%',
-    gridTemplateColumns: '1fr 2fr',
-    gridTemplateRows: '1fr 2fr 1fr 1fr 2fr'
+    display: 'flex',
+    padding: 17
   }
 });

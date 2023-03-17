@@ -7,26 +7,22 @@ import {Register} from './src/screens/Register';
 import AgendaScreen from './src/screens/Agenda';
 import React, {useEffect} from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
-import {DefaultTheme} from 'react-native-paper';
 import Loader from './src/components/Loader';
-import {connect} from 'react-redux';
-import {bindActionCreators} from '@reduxjs/toolkit';
-import { hide } from './src/redux/loading/loading.actions';
+import {useSelector} from 'react-redux';
 
-const App = props => {
+const App = () => {
   const Stack = createStackNavigator();
+  const token = useSelector((state) => state.token);
 
-  useEffect(() => {
-    if (props.loginState.token) {
-      props.hideLoading();
-    }
-  }, [props.loginState.token]);
+  // useEffect(() => {
+  //   //clear token depending on the server info. ask Elijah
+  // }, [])
 
   return (
       <PaperProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login" screenOptions={{header: (props) => <Navigation {...props} />}}>
-            {props.loginState.token ? (
+            {token ? (
               <Stack.Screen name="Calendar" component={AgendaScreen} />
             ) : (
               <>
@@ -45,16 +41,4 @@ const App = props => {
   );
 };
 
-const mapStateToProps = store => ({
-  loginState: store.login,
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      hideLoading: hide,
-    },
-    dispatch,
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

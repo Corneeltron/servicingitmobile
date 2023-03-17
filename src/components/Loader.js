@@ -1,11 +1,13 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
-import { connect } from 'react-redux';
+import {useSelector } from 'react-redux';
 
-const Loader = (props) => {
+const Loader = () => {
+  const isLoading = useSelector((state) => state.isLoading);
+
   return (
-    props.loadingState.show ? 
+    isLoading ? 
     <View style={styles.backdrop}>
       <ActivityIndicator color={styles.spinner.color} animating={true} />
     </View>
@@ -13,11 +15,7 @@ const Loader = (props) => {
   );
 };
 
-const mapStateToProps = (store) => ({
-  loadingState: store.loading
-})
-
-export default connect(mapStateToProps)(Loader);
+export default Loader;
 
 const styles = StyleSheet.create({
   backdrop: {

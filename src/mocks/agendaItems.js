@@ -117,7 +117,15 @@ export const agendaItemsObj = {
       end: '09:00 AM',
       status: 'Follow Up',
       value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-
+      customer: {
+        name: 'Aline Avila',
+        notes: "rehang- get email last name at gate is Guo buzz the gate",
+        phone: '867-5309',
+        email: 'update',
+        addressLine1: '2045 Waterside Circle',
+        addressLine2: 'Westlake Village, CA',
+        addressLine3: '91362'
+      }
     },
     {
       name: 'Jason',
@@ -125,7 +133,15 @@ export const agendaItemsObj = {
       end: '10:00 AM',
       status: 'En route',
       value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-
+      customer: {
+        name: 'Aline Avila',
+        notes: "rehang- get email last name at gate is Guo buzz the gate",
+        phone: '867-5309',
+        email: 'update',
+        addressLine1: '2045 Waterside Circle',
+        addressLine2: 'Westlake Village, CA',
+        addressLine3: '91362'
+      }  
     },
   ],
   '2023-03-11': [
@@ -135,7 +151,15 @@ export const agendaItemsObj = {
       end: '11:00 AM',
       status: 'En route',
       value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-
+      customer: {
+        name: 'Aline Avila',
+        notes: "rehang- get email last name at gate is Guo buzz the gate",
+        phone: '867-5309',
+        email: 'update',
+        addressLine1: '2045 Waterside Circle',
+        addressLine2: 'Westlake Village, CA',
+        addressLine3: '91362'
+      }  
     },
     {
       name: 'Ron',
@@ -143,7 +167,15 @@ export const agendaItemsObj = {
       end: '10:30 AM',
       status: 'Finished',
       value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-
+      customer: {
+        name: 'Aline Avila',
+        notes: "rehang- get email last name at gate is Guo buzz the gate",
+        phone: '867-5309',
+        email: 'update',
+        addressLine1: '2045 Waterside Circle',
+        addressLine2: 'Westlake Village, CA',
+        addressLine3: '91362'
+      }  
     },
   ],
   '2023-03-12': [
@@ -153,7 +185,15 @@ export const agendaItemsObj = {
       end: '11:00 AM',
       status: 'Follow Up',
       value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-
+      customer: {
+        name: 'Aline Avila',
+        notes: "rehang- get email last name at gate is Guo buzz the gate",
+        phone: '867-5309',
+        email: 'update',
+        addressLine1: '2045 Waterside Circle',
+        addressLine2: 'Westlake Village, CA',
+        addressLine3: '91362'
+      }  
     },
     {
       name: 'Ron',
@@ -161,7 +201,15 @@ export const agendaItemsObj = {
       end: '12:30 AM',
       status: 'Follow Up',
       value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-
+      customer: {
+        name: 'Aline Avila',
+        notes: "rehang- get email last name at gate is Guo buzz the gate",
+        phone: '867-5309',
+        email: 'update',
+        addressLine1: '2045 Waterside Circle',
+        addressLine2: 'Westlake Village, CA',
+        addressLine3: '91362'
+      }  
     },
   ],
   '2023-03-13': [
@@ -171,7 +219,15 @@ export const agendaItemsObj = {
       end: '11:00 AM',
       status: 'En route',
       value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-
+      customer: {
+        name: 'Aline Avila',
+        notes: "rehang- get email last name at gate is Guo buzz the gate",
+        phone: '867-5309',
+        email: 'update',
+        addressLine1: '2045 Waterside Circle',
+        addressLine2: 'Westlake Village, CA',
+        addressLine3: '91362'
+      }  
     },
     {
       name: 'Jason',
@@ -179,7 +235,15 @@ export const agendaItemsObj = {
       end: '1:30 PM',
       status: 'Follow Up',
       value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-
+      customer: {
+        name: 'Aline Avila',
+        notes: "rehang- get email last name at gate is Guo buzz the gate",
+        phone: '867-5309',
+        email: 'update',
+        addressLine1: '2045 Waterside Circle',
+        addressLine2: 'Westlake Village, CA',
+        addressLine3: '91362'
+      }  
     },
   ],
   '2023-03-14': [
@@ -189,7 +253,15 @@ export const agendaItemsObj = {
       end: '11:00 AM',
       status: 'Finished',
       value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-
+      customer: {
+        name: 'Aline Avila',
+        notes: "rehang- get email last name at gate is Guo buzz the gate",
+        phone: '867-5309',
+        email: 'update',
+        addressLine1: '2045 Waterside Circle',
+        addressLine2: 'Westlake Village, CA',
+        addressLine3: '91362'
+      }  
     },
     {
       name: 'Jason',
@@ -197,7 +269,15 @@ export const agendaItemsObj = {
       end: '12:30 PM',
       status: 'Follow Up',
       value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-
+      customer: {
+        name: 'Aline Avila',
+        notes: "rehang- get email last name at gate is Guo buzz the gate",
+        phone: '867-5309',
+        email: 'update',
+        addressLine1: '2045 Waterside Circle',
+        addressLine2: 'Westlake Village, CA',
+        addressLine3: '91362'
+      }  
     },
   ],
 };

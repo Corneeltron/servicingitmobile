@@ -1,19 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import {loadingReducer} from './loading/loading.reducers';
-import {loginReducer} from './login/login.reducers';
+import {configureStore} from '@reduxjs/toolkit';
 import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import logger from 'redux-logger';
 import authReducer from './slices/authSlice';
 
-
-// export const reducers = combineReducers({
-//   login: loginReducer,
-// });
-
 const persistConfig = {
   key: 'root',
-  storage: AsyncStorage
+  storage: AsyncStorage,
+  blacklist: ['error']
 };
 
 const persistedReducer = persistReducer(persistConfig, authReducer);
