@@ -4,7 +4,7 @@ import {ActivityIndicator} from 'react-native-paper';
 import {useSelector } from 'react-redux';
 
 const Loader = () => {
-  const isLoading = useSelector((state) => state.isLoading);
+  const isLoading = useSelector((state) => state.authReducer.isLoading);
 
   return (
     isLoading ? 

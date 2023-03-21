@@ -12,7 +12,7 @@ import {useSelector} from 'react-redux';
 
 const App = () => {
   const Stack = createStackNavigator();
-  const token = useSelector((state) => state.token);
+  const token = useSelector((state) => state.authReducer.token);
 
   // useEffect(() => {
   //   //clear token depending on the server info. ask Elijah

@@ -15,7 +15,7 @@ export default Login = props => {
   const theme = useTheme();
   const {navigation} = props;
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.error)
+  const error = useSelector((state) => state.authReducer.error)
   // const [recoveryEmail, setRecoveryEmail] = useState('');
 
   const navigateToRegister = () => {
@@ -47,7 +47,7 @@ export default Login = props => {
         withCredentials: true,
       });
       dispatch(setToken(res.data.token))
-      // dispatch(setUserInfo(res.data.userDetails))
+      dispatch(setUserInfo(res.data.userDetails))
     } catch (err) {
       console.log('err', err)
       dispatch(setError('Failed to log in'));
