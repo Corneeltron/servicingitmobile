@@ -1,50 +1,36 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Agenda} from 'react-native-calendars';
-import {Card, Avatar, Text, Button} from 'react-native-paper';
 import {agendaItemsObj} from '../mocks/agendaItems';
-import {logout} from '../redux/login/login.actions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from '@reduxjs/toolkit';
 import AgendaItem from '../components/AgendaItem';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError, setLoading } from '../redux/slices/authSlice';
 
-const timeToString = time => {
-  const date = new Date(time);
-  return date.toISOString().split('T')[0];
-};
+const employeeUrl = 'https://mygaragedoc.azurewebsites.net/api/serviceit/getemployees';
 
 const AgendaScreen = (props) => {
   const [items, setItems] = useState({});
   const [currentDate, setCurrentDate] = useState();
   const mockAgenda = agendaItemsObj;
+  const dispatch = useDispatch();
+
+  const getEmployeeInfo = async () => {
+    dispatch(setLoading(true));
+      try {
+        const res = await axios.get(employeeUrl)
+        dispatch(setToken(res.data.token))
+      } catch (err) {
+        console.log('err', err)
+        dispatch(setError ('Failed to log in'));
+      } finally {
+        dispatch(setLoading(false));
+      }
+  }
+
 
   const loadItems = () => {
     const mockData = mockAgenda;
-    // setTimeout(() => {
-    //   for (let i = 0; i < 20; i++) {
-    //     const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-    //     const strTime = timeToString(time);
-
-    //     if (!items[strTime]) {
-    //       items[strTime] = [];
-
-    //       const numItems = Math.floor(Math.random() * 3 + 1);
-    //       for (let j = 0; j < numItems; j++) {
-    //         items[strTime].push({
-    //           name: 'Item for ' + strTime + ' #' + j,
-    //           height: Math.max(50, Math.floor(Math.random() * 150)),
-    //           day: strTime,
-    //         });
-    //       }
-    //     }
-    //   }
-
-    //   const newItems = {};
-    //   Object.keys(items).forEach(key => {
-    //     newItems[key] = items[key];
-    //   });
-    //   setItems(newItems);
-    // }, 1000);
     setItems(mockData);
   };
 
@@ -72,20 +58,7 @@ const AgendaScreen = (props) => {
   );
 };
 
-const mapStateToProps = store => ({
-  loadingState: store.loading,
-  loginState: store.login,
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      logout: logout,
-    },
-    dispatch,
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(AgendaScreen);
+export default AgendaScreen;
 
 const styles = StyleSheet.create({
   container: {

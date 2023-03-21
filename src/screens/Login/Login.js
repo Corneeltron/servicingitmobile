@@ -7,6 +7,7 @@ import {loginForm} from './LoginFormValidation';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setToken, setLoading, setError, clearError } from '../../redux/slices/authSlice';
+import { setUserInfo } from '../../redux/slices/userSlice';
 
 loginUrl = 'https://mygaragedoc.azurewebsites.net/api/user/login';
 
@@ -46,6 +47,7 @@ export default Login = props => {
         withCredentials: true,
       });
       dispatch(setToken(res.data.token))
+      // dispatch(setUserInfo(res.data.userDetails))
     } catch (err) {
       console.log('err', err)
       dispatch(setError('Failed to log in'));
